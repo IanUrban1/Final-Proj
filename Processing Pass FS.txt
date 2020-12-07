@@ -1,0 +1,18 @@
+#version 450
+#ifdef GL_ES
+precision highp float; // If GLSL ES is detected, add required precision setting.
+#endif // GL_ES
+
+layout (location = 0) out vec4 rtFragColor;
+
+// Uniforms
+uniform sampler2D tex0;
+
+// Varying
+// Per-Fragment: Recieve requirementes for final color
+in vec4 vTexcoord;
+
+void main() {
+	vec4 texture0 = texture(tex0, vTexcoord.xy);
+	rtFragColor = texture0;
+}

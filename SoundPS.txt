@@ -1,4 +1,4 @@
-#version 450 es
+#version 450 
 
  
 #ifdef GL_ES
@@ -58,10 +58,10 @@ void initViewport(out sViewport vp,
           
  //------------------------------------------------------------
 // Music Visualizer:
-vec4 musicVis(in vec2 fragCoord, in sViewport vp, float time)
+vec2 musicVis(in vec2 fragCoord, in sViewport vp, float time)
 {
     //creating a vec4 to be used as a returner
-    vec4 musicVisr;
+    vec2 musicVisr;
     
     //splitting the screen into two different sections
     //to generate a fade away/in effect for the visulizer
@@ -69,7 +69,7 @@ vec4 musicVis(in vec2 fragCoord, in sViewport vp, float time)
     vp.uv.y *= 0.5;
     vp.uv.x *= 0.5;
     
-    //grabbing the song via iChannel1 and setting it to a float
+    //grabbing the song and setting it to a float
     float fft = texture(uSound, vec2(vp.uv.x, vp.uv.y)).x;
     
     //the first "pass" of trippy visuals
@@ -88,9 +88,9 @@ vec4 musicVis(in vec2 fragCoord, in sViewport vp, float time)
     //the third "pass" for the visuals
     //for the visualizer, using mix to 
     //generate a more trippy effect than previously
-    x = mix(x,y,z);
-    y = mix(y,x,z);
-    z = mix(z,y,x);
+    x = mix(x,y);
+    y = mix(y,x);
+    //z = mix(z,y,x);
     
     //the fourth "pass" of visuals 
     //for the visualizer, dividing by fft so that
@@ -109,12 +109,12 @@ vec4 musicVis(in vec2 fragCoord, in sViewport vp, float time)
     //creating a vec3 sounder to store all
     //of the created trippy visuals
     //for the x, y, z coordinates
-    vec3 sounder = vec3(x, y, z);
+    vec2 sounder = vec2(x, y);
     
     //casting the vec3 sounder or the local var used
     //to store all the data to the vec4 musicVisr
     //so that all of the visuals my be returned
-    musicVisr = vec4(sounder, 1.0);
+    musicVisr = sounder;
     
     //returning all of the created music data
 	return musicVisr;
@@ -130,7 +130,7 @@ vec2 mainSound(in sViewport vp, in vec2 fragCoord, float time)
     //setting it to the musicVis function
     //this is done so that we may return all of the generated effects
     //created within musicVis
-    vec4 renMusicVisr = musicVis(fragCoord, vp, time);
+    vec2 renMusicVisr = musicVis(fragCoord, vp, time); 
     
     //returning the rendered music visualizer
     return renMusicVisr;

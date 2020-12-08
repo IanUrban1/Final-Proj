@@ -1,0 +1,116 @@
+#version 450 es 
+ 
+ //object-space
+layout (location = 0) in vec4 aPosition;
+layout (location = 1) in vec3 aNormal; 
+
+//Texture-space
+//layout (location = 2) in vec2 aTexCoord;
+layout (location = 2) in vec4 aTexCoord;
+
+
+//Transform uniform
+//u for uniform
+//Matrix uniforms
+uniform mat4 uModel;
+uniform mat4 uModelMat;
+uniform mat4 uViewMat;
+uniform mat4 uProjMat;
+uniform mat4 uViewProjMat;
+
+//Texture uniform
+uniform sampler2D uTexture;
+
+
+// varying
+// v for varying
+//varying enables you to use a the same variable
+//in both vs and ps files
+//PER-VERTEX: Final color
+out vec4 vColor;
+
+//PER-FRAGMENT:indivdual componets
+out vec4 vNormal;
+out vec2 vTexCoord;
+out vec4 vPosition;
+//PER-FRAGMENT: takes in requirements for final color
+//in vec4 vNormal;
+//in vec4 vTexCoord;
+  
+void main() 
+{ 
+	//----------------------------- 
+	//PipeLine stuff
+	
+	//position in world space
+	//vec4 pos_world = uModel * aPosition;
+	//gl_position = pos_world;
+		
+	//position in camera space
+	//vec4 pos_cam = uViewMat * pos_world;
+	//vec4 pos_cam = uViewMat * uModel * aPosition;	
+	
+	//position in clip-space
+	//from viewspace to clipspace
+	//lines below are different way of switching
+	//viewspace to clipspace, the top one is the most
+	//efficent
+	//vec4 pos_clip = uProjmat * pos_cam;
+	//vec4 pos_clip = uProjmat * pos_world;
+	//vec4 pos_clip = uProjmat * uViewMat * uModel * aPosition;
+	//gl_position = pos_clip;
+	
+	//Final Position Pipeline
+	mat4 modelViewMat  = uViewMat * uModelMat;
+	vec4 pos_cam = modelViewMat * aPosition;
+	vec4 pos_clip = uProjMat * pos_cam;
+	gl_Position = pos_clip;
+	
+	
+	//Normal pipeline
+	//mat4 normalMatrix = inverse(transpose(modelViewMat));
+	//vec3 norm_cam = normalMatrix * vec4(aNormal, 0.0);
+	mat3 normalMatrix = transpose(inverse(mat3(modelViewMat)));
+	vec3 norm_cam = normalMatrix * aNormal;
+	
+	
+	//TEXTCOORD Pipeline
+	mat4 atlasMat = mat4(1.0, 0.0, 0.0, 0.0,
+						 0.0, 1.0, 0.0, 0.0,
+						 0.0, 0.0, 1.0, 0.0,
+						 0.0, 0.0, 0.0, 1.0);
+						 
+	mat4 atlastMatDev = mat4(0.5, 0.0, 0.0, 0.0,
+							 0.0, 0.5, 0.0, 0.0,
+							 0.0, 0.0, 1.0, 0.0,
+							 0.25, 0.25, 0.0, 1.0);
+	//use a vec4 so we can use 4D transformation
+	vec4 uv_atlas = atlasMat * aTexCoord; 
+				
+//------------------------------------------- 
+//Solid Color/Normal stuff		
+	  
+	 //Solid Color 
+	 //Makes a dark purple  
+	 //vColor = vec4(0.4, 0.24, 0.65, 0.18);
+	  
+	
+	//PER-VERTEX output
+	//vColor = vec4(aNormal * 0.5 + 0.5, 1.0); 
+	
+	//PER-FRAGMENT outputs
+    vNormal = vec4(norm_cam, 0.0);
+	//vec4(vec3(vTexCoord, 1.0), 1.0) = uv_atlas; 
+	 
+	//------------------------------------------------   
+	//Texture Stuff	  
+	          
+	//Use this to get the texture 
+	//use equation below to scale down the quad: 
+	//gl_Position = aPosition * vec4(0.5, 0.5, 0.5, 1.0);  
+	//if you want the texture to be full screen:                
+	//gl_Position = aPosition;   
+    //if you want the texture to attach to the geos then just use the line below	 
+    //vTexCoord = aPosition.xy * 0.5 + 0.5;
+	
+}

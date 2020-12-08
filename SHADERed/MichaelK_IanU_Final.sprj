@@ -1,0 +1,199 @@
+<?xml version="1.0"?>
+<project version="2">
+	<pipeline>
+		<pass name="BrightpassPass" type="shader" active="true">
+			<shader type="vs" path="shaders\finalProject\BrightpassPassVS.glsl" entry="main" />
+			<shader type="ps" path="shaders\finalProject\BrightpassPassFS.glsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="rtBrightpassBlur1" />
+			<items>
+				<item name="FSQ1" type="geometry">
+					<type>ScreenQuadNDC</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="int" name="tex0">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="BlurPass1" type="shader" active="true">
+			<shader type="vs" path="shaders\finalProject\BlurPass1VS.glsl" entry="main" />
+			<shader type="ps" path="shaders\finalProject\BlurPass1FS.glsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="rtBlur1Blur2" />
+			<items>
+				<item name="FSQ2" type="geometry">
+					<type>ScreenQuadNDC</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float2" name="uResolution" system="ViewportSize" />
+				<variable type="int" name="tex1">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="BlurPass2" type="shader" active="true">
+			<shader type="vs" path="shaders\finalProject\BlurPass2VS.glsl" entry="main" />
+			<shader type="ps" path="shaders\finalProject\BlurPass2FS.glsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="rtBlur2Bloom" />
+			<items>
+				<item name="FSQ3" type="geometry">
+					<type>ScreenQuadNDC</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float2" name="uResolution" system="ViewportSize" />
+				<variable type="int" name="tex2">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="BloomPass" type="shader" active="true">
+			<shader type="vs" path="shaders\finalProject\BloomPassVS.glsl" entry="main" />
+			<shader type="ps" path="shaders\finalProject\BloomPassFS.glsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture name="rtBloomGeo" />
+			<items>
+				<item name="FSQ4" type="geometry">
+					<type>ScreenQuadNDC</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float2" name="uResolution" system="ViewportSize" />
+				<variable type="int" name="tex3">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="tex4">
+					<row>
+						<value>1</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+		<pass name="TempLightingPass" type="shader" active="true">
+			<shader type="vs" path="shaders\finalProject\TempLightingPassVS.glsl" entry="main" />
+			<shader type="ps" path="shaders\finalProject\TempLightingPassFS.glsl" entry="main" />
+			<inputlayout>
+				<item value="Position" semantic="POSITION" />
+				<item value="Normal" semantic="NORMAL" />
+				<item value="Texcoord" semantic="TEXCOORD0" />
+			</inputlayout>
+			<rendertexture />
+			<items>
+				<item name="Sphere1" type="geometry">
+					<type>Sphere</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
+			</items>
+			<itemvalues />
+			<variables>
+				<variable type="float4x4" name="uViewMat" system="View" />
+				<variable type="float4x4" name="uModelMat" system="GeometryTransform" />
+				<variable type="float4x4" name="uProjMat" system="Projection" />
+				<variable type="float4x4" name="uViewProjMat" system="ViewProjection" />
+				<variable type="int" name="tex5">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="int" name="tex6">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+			</variables>
+			<macros />
+		</pass>
+	</pipeline>
+	<objects>
+		<object type="rendertexture" name="rtBrightpassBlur1" fsize="474,773" clear="true">
+			<bind slot="0" name="BlurPass1" />
+		</object>
+		<object type="rendertexture" name="rtBlur1Blur2" fsize="474,773" clear="true">
+			<bind slot="0" name="BlurPass2" />
+		</object>
+		<object type="rendertexture" name="rtBlur2Bloom" fsize="474,773" clear="true">
+			<bind slot="0" name="BloomPass" />
+		</object>
+		<object type="rendertexture" name="rtBloomGeo" fsize="474,773" clear="true">
+			<bind slot="0" name="TempLightingPass" />
+		</object>
+		<object type="texture" path="..\..\..\Pictures\testtexture.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat" />
+		<object type="audio" path="..\..\..\Music\Fortress Theme Fast.ogg">
+			<bind slot="0" name="BrightpassPass" />
+			<bind slot="1" name="BloomPass" />
+		</object>
+	</objects>
+	<cameras />
+	<settings>
+		<entry type="property" name="TempLightingPass" item="pipe" />
+		<entry type="file" name="TempLightingPass" shader="vs" />
+		<entry type="file" name="TempLightingPass" shader="ps" />
+		<entry type="pinned" name="uViewMat" owner="TempLightingPass" />
+		<entry type="pinned" name="uProjMat" owner="TempLightingPass" />
+		<entry type="pinned" name="uViewProjMat" owner="TempLightingPass" />
+		<entry type="camera" fp="false">
+			<distance>2</distance>
+			<pitch>8</pitch>
+			<yaw>195</yaw>
+			<roll>360</roll>
+		</entry>
+		<entry type="clearcolor" r="0" g="0" b="0" a="0" />
+		<entry type="usealpha" val="false" />
+	</settings>
+	<plugindata />
+</project>

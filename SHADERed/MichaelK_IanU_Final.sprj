@@ -121,7 +121,7 @@
 			</variables>
 			<macros />
 		</pass>
-		<pass name="TempLightingPass" type="shader" active="true">
+		<pass name="GeoPass" type="shader" active="true">
 			<shader type="vs" path="shaders\finalProject\TempLightingPassVS.glsl" entry="main" />
 			<shader type="ps" path="shaders\finalProject\TempLightingPassFS.glsl" entry="main" />
 			<inputlayout>
@@ -145,6 +145,7 @@
 				<variable type="float4x4" name="uModelMat" system="GeometryTransform" />
 				<variable type="float4x4" name="uProjMat" system="Projection" />
 				<variable type="float4x4" name="uViewProjMat" system="ViewProjection" />
+				<variable type="float2" name="mousePosition" system="MousePosition" />
 				<variable type="int" name="tex5">
 					<row>
 						<value>0</value>
@@ -170,7 +171,7 @@
 			<bind slot="0" name="BloomPass" />
 		</object>
 		<object type="rendertexture" name="rtBloomGeo" fsize="474,773" clear="true">
-			<bind slot="0" name="TempLightingPass" />
+			<bind slot="0" name="GeoPass" />
 		</object>
 		<object type="texture" path="..\..\..\Pictures\testtexture.png" vflip="false" min_filter="Linear" mag_filter="Nearest" wrap_s="Repeat" wrap_t="Repeat" />
 		<object type="audio" path="..\..\..\Music\Fortress Theme Fast.ogg">
@@ -180,16 +181,16 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="TempLightingPass" item="pipe" />
-		<entry type="file" name="TempLightingPass" shader="vs" />
-		<entry type="file" name="TempLightingPass" shader="ps" />
-		<entry type="pinned" name="uViewMat" owner="TempLightingPass" />
-		<entry type="pinned" name="uProjMat" owner="TempLightingPass" />
-		<entry type="pinned" name="uViewProjMat" owner="TempLightingPass" />
+		<entry type="property" name="GeoPass" item="pipe" />
+		<entry type="file" name="GeoPass" shader="vs" />
+		<entry type="file" name="GeoPass" shader="ps" />
+		<entry type="pinned" name="uViewMat" owner="GeoPass" />
+		<entry type="pinned" name="uProjMat" owner="GeoPass" />
+		<entry type="pinned" name="uViewProjMat" owner="GeoPass" />
 		<entry type="camera" fp="false">
-			<distance>2</distance>
-			<pitch>8</pitch>
-			<yaw>195</yaw>
+			<distance>8</distance>
+			<pitch>4</pitch>
+			<yaw>179</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="0" g="0" b="0" a="0" />

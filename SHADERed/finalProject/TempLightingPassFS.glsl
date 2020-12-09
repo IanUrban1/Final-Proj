@@ -17,6 +17,7 @@ in vec4 vPos_camera;
 // Uniforms
 uniform sampler2D tex5;
 uniform mat4 uViewMat;
+uniform vec2 mousePosition;
 
 // A struct containing variables for a point light
 struct sPointLight {
@@ -63,18 +64,24 @@ float pow256(in float specularCoefficient) {
     return sc;
 }
 
+// Return distance from the mouse to the point in range of [0,1]
+// with 1 being closest
+float distToPoint(in vec2 p) {
+	return max(1.0 - distance(p, mousePosition), 0.0);
+}
+
 void main()
 {
     // Per-Fragment
     vec4 N = normalize(vNormal);
     
     sPointLight pointLights[6];
-    initPointLight(pointLights[0], vec3(2.0, 0.0, 0.0), vec3(1.0, 0.0, 0.0), 10.0);
-    initPointLight(pointLights[1], vec3(-2.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), 10.0);
-    initPointLight(pointLights[2], vec3(0.0, 2.0, 0.0), vec3(0.0, 0.0, 1.0), 10.0);
-    initPointLight(pointLights[3], vec3(0.0, -2.0, 0.0), vec3(1.0, 1.0, 0.0), 10.0);
-    initPointLight(pointLights[4], vec3(0.0, 0.0, 2.0), vec3(1.0, 0.0, 1.0), 10.0);
-    initPointLight(pointLights[5], vec3(0.0, 0.0, -2.0), vec3(0.0, 1.0, 1.0), 10.0);
+    initPointLight(pointLights[0], vec3(2.0, 0.0, 0.0), vec3(1.0, 0.0, 0.0), 10.0 * distToPoint(vec2(0.0, 1.0)));
+    initPointLight(pointLights[1], vec3(-2.0, 0.0, 0.0), vec3(0.0, 1.0, 0.0), 10.0 * distToPoint(vec2(0.5, 1.0)));
+    initPointLight(pointLights[2], vec3(0.0, 2.0, 0.0), vec3(0.0, 0.0, 1.0), 10.0 * distToPoint(vec2(1.0, 1.0)));
+    initPointLight(pointLights[3], vec3(0.0, -2.0, 0.0), vec3(1.0, 1.0, 0.0), 10.0 * distToPoint(vec2(0.0, 0.0)));
+    initPointLight(pointLights[4], vec3(0.0, 0.0, 2.0), vec3(1.0, 0.0, 1.0), 10.0 * distToPoint(vec2(0.5, 0.0)));
+    initPointLight(pointLights[5], vec3(0.0, 0.0, -2.0), vec3(0.0, 1.0, 1.0), 10.0 * distToPoint(vec2(1.0, 0.0)));
     
     // Geometry variables
     float diffuseIntensity, specularIntensity;

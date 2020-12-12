@@ -138,8 +138,26 @@
 					<depth>1</depth>
 					<topology>TriangleList</topology>
 				</item>
+				<item name="Sphere2" type="geometry">
+					<type>Sphere</type>
+					<width>1</width>
+					<height>1</height>
+					<depth>1</depth>
+					<topology>TriangleList</topology>
+				</item>
 			</items>
-			<itemvalues />
+			<itemvalues>
+				<value variable="uFlip" for="Sphere2">
+					<row>
+						<value>-1</value>
+					</row>
+				</value>
+				<value variable="uFlip" for="Sphere1">
+					<row>
+						<value>1</value>
+					</row>
+				</value>
+			</itemvalues>
 			<variables>
 				<variable type="float4x4" name="uViewMat" system="View" />
 				<variable type="float4x4" name="uModelMat" system="GeometryTransform" />
@@ -152,6 +170,11 @@
 					</row>
 				</variable>
 				<variable type="int" name="tex6">
+					<row>
+						<value>0</value>
+					</row>
+				</variable>
+				<variable type="float" name="uFlip">
 					<row>
 						<value>0</value>
 					</row>
@@ -181,16 +204,16 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="GeoPass" item="pipe" />
+		<entry type="property" name="BloomPass" item="pipe" />
 		<entry type="file" name="GeoPass" shader="vs" />
 		<entry type="file" name="GeoPass" shader="ps" />
 		<entry type="pinned" name="uViewMat" owner="GeoPass" />
 		<entry type="pinned" name="uProjMat" owner="GeoPass" />
 		<entry type="pinned" name="uViewProjMat" owner="GeoPass" />
 		<entry type="camera" fp="false">
-			<distance>8</distance>
-			<pitch>4</pitch>
-			<yaw>179</yaw>
+			<distance>4</distance>
+			<pitch>10</pitch>
+			<yaw>358</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="0" g="0" b="0" a="0" />

@@ -67,7 +67,7 @@ float pow256(in float specularCoefficient) {
 // Return distance from the mouse to the point in range of [0,1]
 // with 1 being closest
 float distToPoint(in vec2 p) {
-	return max(1.0 - distance(p, mousePosition), 0.0);
+	return max(1.0 - sqrt(lenSq(p - mousePosition)), 0.0);
 }
 
 void main()

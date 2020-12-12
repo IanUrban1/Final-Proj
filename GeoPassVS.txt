@@ -10,6 +10,7 @@ uniform mat4 uModelMat;
 uniform mat4 uViewMat;
 uniform mat4 uProjMat;
 uniform mat4 uViewProjMat;
+uniform float uFlip;
 
 // Varying
 // Per-Fragment: individual components
@@ -28,14 +29,15 @@ void main() {
     vTexcoord = uv_atlas;
 
 	// Final Position Pipeline
-	vPosition = aPosition;
-	mat4 modelViewMat = uViewMat * uModelMat;
-	vec4 pos_camera = modelViewMat * aPosition;
+	vec4 texture6 = texture(tex6, vTexcoord.xy);
+	vPosition = vec4(aPosition.x*texture6.x, aPosition.y*texture6.x, aPosition.z*texture6.x, aPosition.w);
+	mat4 modelMatrixFlip = mat4(uModelMat[0], uModelMat[1], uModelMat[2] * uFlip, uModelMat[3]);
+	mat4 modelViewMat = uViewMat * modelMatrixFlip;
+	vec4 pos_camera = modelViewMat * vPosition;
 	vec4 pos_clip = uProjMat * pos_camera;
 	vPos_camera = pos_camera;
 	// Required to set this value
-	vec4 texture6 = texture(tex6, vTexcoord.xy);
-    gl_Position = vec4(pos_clip.x*texture6.x, pos_clip.y*texture6.x, pos_clip.z*texture6.x, pos_clip.w);
+    gl_Position = pos_clip;
     
     // Normal Pipeline
     mat3 normalMatrix = transpose(inverse(mat3(modelViewMat)));

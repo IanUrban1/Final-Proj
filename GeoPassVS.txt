@@ -21,10 +21,10 @@ out vec4 vPos_camera;
 
 void main() {
 	// Texcoord Pipeline
-    mat4 atlasMap = mat4(0.5, 0.0, 0.0, 0.0,
+    mat4 atlasMap = mat4(1.0, 0.0, 0.0, 0.0,
     					 0.0, 0.5, 0.0, 0.0,
-    					 0.0, 0.0, 0.5, 0.0,
-    					 0.0, 0.0, 0.0, 0.5);
+    					 0.0, 0.0, 1.0, 0.0,
+    					 0.0, 0.0, 0.0, 1.0);
     vec4 uv_atlas = atlasMap * aTexcoord;
     vTexcoord = uv_atlas;
 

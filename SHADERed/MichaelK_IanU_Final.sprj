@@ -204,7 +204,15 @@
 	</objects>
 	<cameras />
 	<settings>
-		<entry type="property" name="BloomPass" item="pipe" />
+		<entry type="property" name="GeoPass" item="pipe" />
+		<entry type="file" name="BrightpassPass" shader="vs" />
+		<entry type="file" name="BrightpassPass" shader="ps" />
+		<entry type="file" name="BlurPass1" shader="vs" />
+		<entry type="file" name="BlurPass1" shader="ps" />
+		<entry type="file" name="BlurPass2" shader="vs" />
+		<entry type="file" name="BlurPass2" shader="ps" />
+		<entry type="file" name="BloomPass" shader="vs" />
+		<entry type="file" name="BloomPass" shader="ps" />
 		<entry type="file" name="GeoPass" shader="vs" />
 		<entry type="file" name="GeoPass" shader="ps" />
 		<entry type="pinned" name="uViewMat" owner="GeoPass" />
@@ -212,8 +220,8 @@
 		<entry type="pinned" name="uViewProjMat" owner="GeoPass" />
 		<entry type="camera" fp="false">
 			<distance>4</distance>
-			<pitch>10</pitch>
-			<yaw>358</yaw>
+			<pitch>28</pitch>
+			<yaw>2</yaw>
 			<roll>360</roll>
 		</entry>
 		<entry type="clearcolor" r="0" g="0" b="0" a="0" />
